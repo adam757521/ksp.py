@@ -6,13 +6,11 @@
   <a href="https://pypi.org/project/ksp.py/"><img src="https://img.shields.io/pypi/v/ksp.py?style=flat-square" /></a>
   <a href=""><img src="https://img.shields.io/pypi/l/ksp.py?style=flat-square" /></a>
     <br/>
-  <a href="#">Documentation</a>
+  <a href="https://ksppy.readthedocs.io/en/latest/">Documentation</a>
 </p>
 
 <p align="center">
    An API wrapper for KSP.
-    <br/>
-  <b>The documentation is not done yet.</b>
 </p>
 
 Features
@@ -80,4 +78,4 @@ Known Issues
 Support
 --------------
 
-- **[Documentation](#)**
+- **[Documentation](https://ksppy.readthedocs.io/en/latest/)**
