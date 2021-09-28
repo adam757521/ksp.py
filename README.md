@@ -6,7 +6,7 @@
   <a href="https://pypi.org/project/ksp.py/"><img src="https://img.shields.io/pypi/v/ksp.py?style=flat-square" /></a>
   <a href=""><img src="https://img.shields.io/pypi/l/ksp.py?style=flat-square" /></a>
     <br/>
-  <a href="https://ksppy.readthedocs.io/en/stable/">Documentation</a>
+  <a href="https://ksppy.readthedocs.io/en/latest/">Documentation</a>
 </p>
 
 <p align="center">
@@ -78,4 +78,4 @@ Known Issues
 Support
 --------------
 
-- **[Documentation](https://ksppy.readthedocs.io/en/stable/)**
+- **[Documentation](https://ksppy.readthedocs.io/en/latest/)**
