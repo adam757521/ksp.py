@@ -34,12 +34,7 @@ KSP Http
 
 KSP Product
 -----------
-.. automodule:: ksp.product.Product
-   :members:
-
-|br|
-
-.. automodule:: ksp.product.PartialProduct
+.. automodule:: ksp.product
    :members:
 
 |br|
