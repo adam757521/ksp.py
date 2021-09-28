@@ -248,6 +248,13 @@ class Product(PartialProduct):
 
     @property
     def stock(self) -> Dict[str, bool]:
+        """
+        Returns the stock of the product.
+
+        :return: The stock.
+        :rtype: Dict[str, bool]
+        """
+
         return {
             branch["name"]: 0 < branch["qnt"]
             for branch in self.http.get_product_stock(self.sku).values()
