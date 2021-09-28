@@ -15,15 +15,14 @@ __all__ = ("Client",)
 class Client:
     """
     Represents a KSP client.
+
+    :ivar HTTPClient http: The client's http client.
+    :ivar List[Product] product_cache: The client's product cache.
     """
 
     __slots__ = ("http", "product_cache")
 
     def __init__(self, language: Languages):
-        """
-        :param Languages language: The language.
-        """
-
         self.http = HTTPClient(language=language)
         self.product_cache = []
 

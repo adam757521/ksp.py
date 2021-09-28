@@ -17,16 +17,14 @@ __all__ = (
 class ProductFlag:
     """
     Represents a product flag.
+
+    :ivar str type: The flag type.
+    :ivar str name: The flag name.
     """
 
     __slots__ = ("type", "name")
 
     def __init__(self, type_: str, name: str) -> None:
-        """
-        :param str type_: The flag type.
-        :param str name: The flag name.
-        """
-
         self.type = type_
         self.name = name
 
@@ -52,6 +50,12 @@ class ProductFlag:
 class ProductDeliveryFlag(ProductFlag):
     """
     Represents a product delivery flag.
+
+    :ivar str type: The flag type.
+    :ivar str name: The flag name.
+    :ivar str place: The flag place.
+    :ivar int price: The flag price
+    :ivar Dict[str, int] time: The flag time.
     """
 
     __slots__ = ("place", "price", "time")
@@ -86,16 +90,14 @@ class ProductDeliveryFlag(ProductFlag):
 class ProductTag:
     """
     Represents a product tag.
+
+    :ivar str name: The tag name.
+    :ivar str description: The tag description.
     """
 
     __slots__ = ("name", "description")
 
     def __init__(self, name: str, description: str) -> None:
-        """
-        :param str name: The tag name.
-        :param description: The tag description.
-        """
-
         self.name = name
         self.description = description
 
@@ -121,6 +123,13 @@ class ProductTag:
 class PartialProduct:
     """
     Represents a partial KSP product.
+
+    :ivar HTTPClient http: The HTTP client.
+    :ivar str images: A list of product images.
+    :ivar str name: The product name.
+    :ivar int price: The product price in shekels.
+    :ivar int uin: The unique id of the product.
+    :ivar str sku: The SKU of the product.
     """
 
     __slots__ = ("http", "images", "name", "price", "uin", "sku")
@@ -134,15 +143,6 @@ class PartialProduct:
         uin: int,
         sku: str,
     ):
-        """
-        :param HTTPClient http: The HTTP client.
-        :param str images: A list of product images.
-        :param str name: The product name.
-        :param int price: The product price in shekels.
-        :param int uin: The unique id of the product.
-        :param str sku: The SKU of the product.
-        """
-
         self.http = http
         self.images = images
         self.name = name
@@ -183,6 +183,21 @@ class PartialProduct:
 class Product(PartialProduct):
     """
     Represents a KSP product.
+
+    :ivar HTTPClient http: The HTTP client.
+    :ivar List[str] images: The images.
+    :ivar str name: The product name.
+    :ivar int price: The product price.
+    :ivar int uin: The product unique identification number.
+    :ivar str sku: The product SKU.
+    :ivar int max_payments: The product max payments.
+    :ivar str description: The product description.
+    :ivar List[ProductFlag] benefits: The product benefits.
+    :ivar List[ProductDeliveryFlag] delivery_flags: The product delivery flags.
+    :ivar List[ProductFlag] flags: The product flags.
+    :ivar List[ProductTag] tags: The product tags.
+    :ivar List[int] variants: All variants of the product.
+    :ivar ProductTag note: The note of the product.
     """
 
     __slots__ = (
@@ -213,23 +228,6 @@ class Product(PartialProduct):
         variants: List[int],
         note: ProductTag = None,
     ):
-        """
-        :param HTTPClient http: The HTTP client.
-        :param List[str] images: The images.
-        :param str name: The product name.
-        :param int price: The product price.
-        :param int uin: The product unique identification number.
-        :param str sku: The product SKU.
-        :param int max_payments: The product max payments.
-        :param str description: The product description.
-        :param List[ProductFlag] benefits: The product benefits.
-        :param List[ProductDeliveryFlag] delivery_flags: The product delivery flags.
-        :param List[ProductFlag] flags: The product flags.
-        :param List[ProductTag] tags: The product tags.
-        :param List[int] variants: All variants of the product.
-        :param ProductTag note: The note of the product.
-        """
-
         super().__init__(http, images, name, price, uin, sku)
         self.max_payments = max_payments
         self.description = description

@@ -14,6 +14,11 @@ __all__ = ("HTTPClient",)
 class HTTPClient:
     """
     Represents an http client that handles requests to the API.
+
+    :cvar str BASE_URL: The base API url of KSP.
+    :cvar str BASE_KSP_URL: The base url of KSP.
+    :ivar requests.Session session: The requests session, will create one if not passed.
+    :ivar Languages language: The language, defaults to Languages.ENGLISH.
     """
 
     __slots__ = ("session", "language")
@@ -24,11 +29,6 @@ class HTTPClient:
     def __init__(
         self, session: requests.Session = None, language: Languages = Languages.ENGLISH
     ) -> None:
-        """
-        :param requests.Session session: The requests session, will create one if not passed.
-        :param language: The language, defaults to Languages.ENGLISH.
-        """
-
         self.session = session or requests.Session()
         self.language = language
 

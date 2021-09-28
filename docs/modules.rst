@@ -15,13 +15,15 @@ KSP Client
 ----------
 .. automodule:: ksp.client
    :members:
+   :show-inheritance:
 
 |br|
 
 KSP Enums
 ----------
 .. automodule:: ksp.enums
- :members:
+   :members:
+   :show-inheritance:
 
 |br|
 
@@ -29,6 +31,7 @@ KSP Http
 --------
 .. automodule:: ksp.http
    :members:
+   :show-inheritance:
 
 |br|
 
@@ -36,6 +39,7 @@ KSP Product
 -----------
 .. automodule:: ksp.product
    :members:
+   :show-inheritance:
 
 |br|
 
@@ -43,3 +47,4 @@ KSP Utils
 ---------
 .. automodule:: ksp.utils
    :members:
+   :show-inheritance:
