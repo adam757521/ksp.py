@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Dict, List, TYPE_CHECKING, Any
+from dataclasses import dataclass
+from typing import Dict, List, TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from .http import HTTPClient
@@ -14,6 +15,7 @@ __all__ = (
 )
 
 
+@dataclass
 class ProductFlag:
     """
     Represents a product flag.
@@ -22,17 +24,8 @@ class ProductFlag:
     :ivar str name: The flag name.
     """
 
-    __slots__ = ("type", "name")
-
-    def __init__(self, type_: str, name: str) -> None:
-        self.type = type_
-        self.name = name
-
-    def __str__(self):
-        return f"<ProductFlag type={self.type}>"
-
-    def __repr__(self):
-        return f"<ProductFlag type={self.type}, name={self.name}>"
+    type: str
+    name: str
 
     @classmethod
     def from_dict(cls, dictionary: Dict[str, str]) -> ProductFlag:
@@ -47,6 +40,7 @@ class ProductFlag:
         return cls(dictionary["type"], dictionary["name"])
 
 
+@dataclass
 class ProductDeliveryFlag(ProductFlag):
     """
     Represents a product delivery flag.
@@ -58,15 +52,9 @@ class ProductDeliveryFlag(ProductFlag):
     :ivar Dict[str, int] time: The flag time.
     """
 
-    __slots__ = ("place", "price", "time")
-
-    def __init__(
-        self, type_: str, name: str, place: str, price: int, time: Dict[str, int]
-    ) -> None:
-        super().__init__(type_, name)
-        self.place = place
-        self.price = price
-        self.time = time
+    place: str
+    price: int
+    time: ProductDeliveryTime
 
     @classmethod
     def from_dict(cls, dictionary: Dict[str, Any]) -> ProductDeliveryFlag:
@@ -83,10 +71,33 @@ class ProductDeliveryFlag(ProductFlag):
             dictionary["title"],
             dictionary["place"],
             int(dictionary["price"] or 0),
-            dictionary["time"],
+            ProductDeliveryTime.from_dict(dictionary["time"]),
         )
 
 
+@dataclass
+class ProductDeliveryTime:
+    """
+    Represents a product delivery time.
+    """
+
+    min: Optional[int]
+    max: Optional[int]
+
+    @classmethod
+    def from_dict(cls, dictionary: Dict[str, int]) -> ProductDeliveryTime:
+        """
+        Creates a ProductDeliveryTime object from the dict.
+
+        :param Dict[str, Optional[int]] dictionary: The dictionary.
+        :return: The product delivery time object.
+        :rtype: ProductDeliveryTime
+        """
+
+        return cls(*[int(value) if value else None for value in dictionary.values()])
+
+
+@dataclass
 class ProductTag:
     """
     Represents a product tag.
@@ -95,17 +106,8 @@ class ProductTag:
     :ivar str description: The tag description.
     """
 
-    __slots__ = ("name", "description")
-
-    def __init__(self, name: str, description: str) -> None:
-        self.name = name
-        self.description = description
-
-    def __str__(self):
-        return f"<ProductTag name={self.name}>"
-
-    def __repr__(self):
-        return f"<ProductTag name={self.name}, description={self.description}>"
+    name: str
+    description: str
 
     @classmethod
     def from_dict(cls, dictionary: Dict[str, str]) -> ProductTag:
@@ -120,6 +122,7 @@ class ProductTag:
         return cls(dictionary["up_name"], dictionary["tag_name"])
 
 
+@dataclass
 class PartialProduct:
     """
     Represents a partial KSP product.
@@ -132,32 +135,12 @@ class PartialProduct:
     :ivar str sku: The SKU of the product.
     """
 
-    __slots__ = ("http", "images", "name", "price", "uin", "sku")
-
-    def __init__(
-        self,
-        http: HTTPClient,
-        images: List[str],
-        name: str,
-        price: int,
-        uin: int,
-        sku: str,
-    ):
-        self.http = http
-        self.images = images
-        self.name = name
-        self.price = price
-        self.uin = uin
-        self.sku = sku
-
-    def __str__(self):
-        return f"<PartialProduct name={self.name}>"
-
-    def __repr__(self):
-        return f"<PartialProduct name={self.name}, price={self.price}>"
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.uin == other.uin
+    http: HTTPClient
+    images: List[str]
+    name: str
+    price: int
+    uin: int
+    sku: str
 
     @classmethod
     def from_dict(cls, dictionary: Dict[str, str], http: HTTPClient) -> PartialProduct:
@@ -180,6 +163,7 @@ class PartialProduct:
         )
 
 
+@dataclass
 class Product(PartialProduct):
     """
     Represents a KSP product.
@@ -200,49 +184,14 @@ class Product(PartialProduct):
     :ivar ProductTag note: The note of the product.
     """
 
-    __slots__ = (
-        "max_payments",
-        "description",
-        "benefits",
-        "delivery_flags",
-        "flags",
-        "tags",
-        "variants",
-        "note",
-    )
-
-    def __init__(
-        self,
-        http: HTTPClient,
-        images: List[str],
-        name: str,
-        price: int,
-        uin: int,
-        sku: str,
-        max_payments: int,
-        description: str,
-        benefits: List[ProductFlag],
-        delivery_flags: List[ProductDeliveryFlag],
-        flags: List[ProductFlag],
-        tags: List[ProductTag],
-        variants: List[int],
-        note: ProductTag = None,
-    ):
-        super().__init__(http, images, name, price, uin, sku)
-        self.max_payments = max_payments
-        self.description = description
-        self.benefits = benefits
-        self.delivery_flags = delivery_flags
-        self.flags = flags
-        self.tags = tags
-        self.variants = variants
-        self.note = note
-
-    def __str__(self):
-        return f"<Product name={self.name}>"
-
-    def __repr__(self):
-        return f"<Product name={self.name}, price={self.price}>"
+    max_payments: int
+    description: str
+    benefits: List[ProductFlag]
+    delivery_flags: List[ProductDeliveryFlag]
+    flags: List[ProductFlag]
+    tags: List[ProductTag]
+    variants: List[int]
+    note: Optional[ProductTag] = None
 
     @property
     def stock(self) -> Dict[str, bool]:
